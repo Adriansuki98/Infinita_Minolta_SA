@@ -995,6 +995,30 @@ es:
     user: "Usuario"
     premium_user: "Usuario Premium"
     private_student: "Estudiante Privado"
+  rsevaluation:
+    messages:
+      draft_success: "La evaluación se ha guardado como borrador. Para terminar debes pulsar sobre el botón Finalizar."
+      duplicated: "La evaluación ya ha sido enviada. ¡Muchas gracias por tu colaboración!"
+      missing_topic: "Debes seleccionar un tema antes de avanzar al siguiente paso."
+      norelevance: "Debes indicar la relevancia para todos los objetos de aprendizaje. Hay al menos un objeto de aprendizaje sin relevancia."
+      save_as_draft: "Guardar como borrador"
+      success: "Evaluación finalizada. ¡Muchas gracias por su colaboración!"
+    stars:
+      one: "No relevante para mí en absoluto"
+      five: "Muy relevante para mí"
+    step1:
+      description: "Paso 1 instrucciones.<br/> Selecciona un tema y pulsar en el botón 'Siguiente'."
+    step2:
+      descriptiona: "Paso 2 instrucciones. [A].<br/>"
+      descriptionb: "Paso 2 instrucciones. [B].<br/>"
+    step3:
+      description: "Paso 3 instrucciones.<br/>"
+    steptitle: "Evaluación: Paso %{step} de 3."
+    topics:
+      a: "Ingeniería"
+      b: "Biología"
+      c: "Historía"
+      d: "Física"
   save: "Salvar"
   saving: "Salvando"
   scope:

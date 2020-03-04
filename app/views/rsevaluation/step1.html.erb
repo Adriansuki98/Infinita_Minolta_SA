@@ -1,0 +1,97 @@
+<%= stylesheet_link_tag "jquery-ui_smoothness_1-11-4" %>
+
+<style type="text/css">
+  p.rstitle {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  div.rsdescription {
+    font-size: 15px;
+    margin-top: 35px;
+  }
+  div.progressbar .ui-widget-header {
+    background: #337ab7;
+    border: none;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+  }
+  div.progressbar.ui-progressbar .ui-progressbar-value {
+    margin: 0px;
+  }
+  .rsbutton {
+    width: 100%;
+  }
+  .tagsWrapper {
+    margin-top: 10px;
+    margin-bottom: 15px;
+  }
+  .tagsWrapper .tag-choice {
+    font-size: 14px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 15px;
+    position: relative;
+    background-color: #05b0ff;
+    color: #FFFFFF;
+    padding: 5px 12px 5px 12px;
+    border: 3px solid #05b0ff;
+  }
+  ul.tagsList {
+    margin-left: 0px;
+    padding-left: 0px;
+  }
+  ul.tagsList li.selected {
+    border: 3px solid black;
+  }
+</style>
+
+<div class="rsevaluation_wrapper">
+  <p class="rstitle"><%=t("rsevaluation.steptitle", :step => "1").html_safe%></p>
+  <div id="progressbar" class="progressbar"></div>
+  <div class="rsdescription"><%=t("rsevaluation.step1.description").html_safe%></div>
+  <br/>
+  <div class="tagsWrapper">
+    <ul class="tagsList">
+      <li class="tag-choice" value="A"><%=t("rsevaluation.topics.a").html_safe%></li>
+      <li class="tag-choice" value="B"><%=t("rsevaluation.topics.b").html_safe%></li>
+      <li class="tag-choice" value="C"><%=t("rsevaluation.topics.c").html_safe%></li>
+    </ul>
+  </div>
+  <br/>
+  <button id="step" class="btn btn-primary rsbutton"><%=t("dictionary.next")%></button>
+  <form id="stepform" style="display:none" action="/rsevaluation/step/1" method="POST">
+    <input type="hidden" name="data">
+    <%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
+  </form>
+</div>
+
+<%content_for :javascript do%>
+  $("#progressbar").progressbar({
+    value: 33
+  });
+  $("li.tag-choice").click(function(event){
+    event.preventDefault();
+    event.stopPropagation();
+    var selected = $(this).hasClass("selected");
+    $("li.tag-choice").removeClass("selected");
+    if(selected===false){
+      $(this).addClass("selected");
+    }
+  });
+  $("#step").click(function(event){
+    event.preventDefault();
+    event.stopPropagation();
+    var data = {};
+    if ($("li.tag-choice.selected").length > 0){
+      data["topic"] = $("li.tag-choice.selected").attr("value");
+    }
+    var form = $("#stepform");
+    $(form).find("input[name='data']").attr("value",JSON.stringify(data));
+    $(form).submit();
+  });
+<% end %>

@@ -6,7 +6,7 @@
 
 class RecommenderSystemAB
 
-  def self.resource_suggestions(options={})
+  def self.resource_suggestions(options={},forceRS=nil,noTrack=false)
     # Step 0: Initialize all variables
     options = prepareOptions(options)
 
@@ -15,7 +15,24 @@ class RecommenderSystemAB
     return preSelectionLOs if preSelectionLOs.blank?
 
     #Step 2: Scoring
-    rn = rand
+    if forceRS.nil?
+      rn = rand
+    else
+      #Force a specific recommender system (used in the user study)
+      case forceRS
+      when "cq"
+        rn = 0.8
+      when "c"
+        rn = 0.6
+      when "q"
+        rn = 0.3
+      when "r"
+        rn = 0.2
+      else
+        raise "Unrecognized recommender system"
+      end 
+    end
+
     # rn = 0.3, for testing purposes
     if rn > 0.75
       #Case A. CB + Quality Metrics
@@ -42,9 +59,14 @@ class RecommenderSystemAB
     deliveredLOs = sortedLOs.first(options[:n])
 
     options[:los] = deliveredLOs
-    tsentry = trackGeneratedRecommendation(options,options[:request],options[:user])
-    tsentryId = (!tsentry.nil? and tsentry.persisted?) ? tsentry.id : nil
 
+    if noTrack
+      tsentryId = nil
+    else 
+      tsentry = trackGeneratedRecommendation(options,options[:request],options[:user])
+      tsentryId = (!tsentry.nil? and tsentry.persisted?) ? tsentry.id : nil
+    end
+    
     return [deliveredLOs,tsentryId]
   end
 

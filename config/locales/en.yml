@@ -1016,6 +1016,21 @@ en:
     user: "User"
     premium_user: "Premium User"
     private_student: "Private Student"
+  rsevaluation:
+    messages:
+      duplicated: "Evaluation already sent. Thank you!"
+      norelevance: "You have to indicate the relevance for all learning objects. There is at least one learning object without relevance."
+      success: "Evaluation finished. Thank you for you collaboration!"
+    stars:
+      one: "Not at all relevant to me"
+      five: "Very relevant to me"
+    step1:
+      description: "Step 1 instructions.<br/>"
+    step2:
+      description: "Step 2 instructions.<br/>"
+    step3:
+      description: "Step 3 instructions.<br/>"
+    steptitle: "Evaluation: Step %{step} of 3."
   save: "Save"
   saving: "Saving"
   scope:

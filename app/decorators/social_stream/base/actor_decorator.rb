@@ -7,7 +7,8 @@ Actor.class_eval do
   has_many :past_activity_objects, through: :actor_historial, source: :activity_object
   has_many :contest_enrollments, :dependent => :destroy
   has_many :contests, :through => :contest_enrollments
-
+  has_one :rsevaluation
+  
   before_save :fill_roles
 
 

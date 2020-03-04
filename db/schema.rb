@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20190329091126) do
+ActiveRecord::Schema.define(:version => 20200304114744) do
 
   create_table "activities", :force => true do |t|
     t.integer  "activity_verb_id"
@@ -615,6 +615,14 @@ ActiveRecord::Schema.define(:version => 20190329091126) do
   end
 
   add_index "rooms", ["actor_id"], :name => "index_rooms_on_actor_id"
+
+  create_table "rsevaluations", :force => true do |t|
+    t.integer  "actor_id"
+    t.text     "data"
+    t.string   "status",     :default => "0"
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
+  end
 
   create_table "scormfiles", :force => true do |t|
     t.integer  "activity_object_id"

@@ -226,4 +226,9 @@ Vish::Application.routes.draw do
   #Tracking System
   resources :tracking_system_entries
 
+  #RS evaluation
+  match '/rsevaluation', to: 'rsevaluation#start', via: [:get]
+  match '/rsevaluation/step/:step', to: 'rsevaluation#step', via: [:post]
+  match '/rsevaluation/step/:step/draft', to: 'rsevaluation#step_draft', via: [:post]
+
 end
