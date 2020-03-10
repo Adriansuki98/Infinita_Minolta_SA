@@ -443,7 +443,7 @@ en:
     tags: "tags"
     password_forgot_instructions: "Write down the email address you associated to your account and you will receive an email with instructions about how to reset your password in a few minutes."
   dictionary:
-    finish: "Finalizar"
+    finish: "Finish"
     next: "Next"
     relevance: "Relevance"
   disjunction:
@@ -1017,20 +1017,40 @@ en:
     premium_user: "Premium User"
     private_student: "Private Student"
   rsevaluation:
+    form:
+      occupation: "Occupation"
+      teacher: "Teacher"
+      student: "Student"
+      other: "Other"
+      gender: "Gender"
+      male: "Male"
+      female: "Female"
+      lor_exp: "Please, indicate your experience using repositories of educational resources on a scale from 1 (nothing) to 5 (a lot)"
     messages:
+      draft_success: "The evaluation has been saved as draft. In order to finish you have to press on the 'Finish' button."
       duplicated: "Evaluation already sent. Thank you!"
+      missing_data_in_form: "You must fill in all form fields."
+      missing_topic: "You must select a topic before advancing to the next step."
       norelevance: "You have to indicate the relevance for all learning objects. There is at least one learning object without relevance."
+      save_as_draft: "Save as draft"
       success: "Evaluation finished. Thank you for you collaboration!"
     stars:
       one: "Not at all relevant to me"
       five: "Very relevant to me"
     step1:
-      description: "Step 1 instructions.<br/>"
+      description: "Welcome to the evaluation tool. Thank you very much for participating in this research study. The process is comprised of a total of 3 steps and has an approximate duration of 15 minutes. If you could not complete the process all at once, it is possible to come back to this tool and complete the evaluation later."
+      descriptionb: "Firstly, you have to fill in the next form. Once you have completed the form, press on 'Next' in order to advance to the following step."
     step2:
-      description: "Step 2 instructions.<br/>"
+      description: "Choose the topic that interests you most and click on the 'Next' button."
     step3:
-      description: "Step 3 instructions.<br/>"
+      descriptiona: "Put yourself in the situation that you are browsing a repository of learning objects (e.g. the ViSH platform ) looking for educational resources and that, finally, you find an educational resource in which you are interested. After clicking on a link you navigate to a new page where you can see the details of this educational resource.</br>Specifically, <b>the educational resource whose details you are seeing is the one shown below.</b>:</br>"
+      descriptionb: "Next, a <b>list of educational resources</b> is going to be shown to you. <br/>Given the situation described above, suppose that this list has been recommended for you <b>on the same page where you are viewing the details of the selected educational resource (i.e. of the educational resource entitled '%{title}')</b>.</br>Please, rate, for each of the educational resources on the list, the <b>relevance or interest that this recommendation has for you</b> in the described situation using a 5-point scale, being 1 \'Not at all relevant to me\' and 5 \'Very relevant to me\'.<br/>Once you have rated the relevance for each educational resource, press on 'Finish' to send the evaluation. If you want, you can press on 'Save as draft' to continue later with the evaluation.</br>"
     steptitle: "Evaluation: Step %{step} of 3."
+    topics:
+      engineering: "Engineering"
+      biology: "Biology"
+      history: "History"
+      physics: "Physics"
   save: "Save"
   saving: "Saving"
   scope:

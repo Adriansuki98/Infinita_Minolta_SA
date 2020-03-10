@@ -1017,15 +1017,13 @@ es:
       one: "No relevante para mí en absoluto"
       five: "Muy relevante para mí"
     step1:
-      description: "Bienvenido a la herramienta de evaluación. Muchas gracias por participar en este estudio de investigación. El proceso se compone de un total de 4 pasos y tiene una duración aproximada de 30 minutos. Si no pudiera completar el proceso de una sola vez, puede regresar nuevamente a esta herramienta y completar la evaluación más adelante desde el punto en que la dejó."
+      description: "Bienvenido a la herramienta de evaluación. Muchas gracias por participar en este estudio de investigación. El proceso se compone de un total de 3 pasos y tiene una duración aproximada de 15 minutos. Si no pudiera completar el proceso de una sola vez, puede regresar nuevamente a esta herramienta y completar la evaluación más adelante desde el punto en que la dejó."
       descriptionb: "En primer lugar, debe rellenar el siguiente formulario. Cuando termine, pulse en 'Siguiente' para avanzar al siguiente paso."
     step2:
       description: "Seleccione el tema que más le interese y pulse en el botón 'Siguiente'."
     step3:
-      descriptiona: "Paso 3 instrucciones. [A].<br/>"
-      descriptionb: "Paso 3 instrucciones. [B].<br/>"
-    step4:
-      description: "Paso 4 instrucciones.<br/>"
+      descriptiona: "Póngase en la situación de que está navegando por un repositorio de objetos de aprendizaje (por ejemplo, en la plataforma ViSH) en busca de un recurso educativo y que, finalmente, encuentra un recurso educativo en el cuál está interesado. Tras hacer clic en un enlace éste le lleva a una nueva página donde puede ver los detalles de este recurso educativo.</br>Concretamente, <b>el recurso educativo cuyos detalles está viendo es el mostrado a continuación</b>:</br>"
+      descriptionb: "A continuación se le va a mostrar una <b>lista de recursos educativos</b>.<br/>Dada la situación descrita anteriormente, suponga que esta lista ha sido recomendada para usted <b>en la misma página en la que está viendo los detalles del recurso educativo seleccionado (es decir, del recurso titulado '%{title}')</b>.</br>Por favor, indique, para cada uno de los recursos educativos de la lista, la <b>relevancia o interés que tiene para usted esta recomendación</b> en la situación descrita empleando una escala de 5 puntos, siendo 1 \'no relevante para mí en absoluto\' y siendo 5 \'muy relevante para mí\'.<br/>Una vez haya indicado la relevancia para cada recurso educativo, haga clic en 'Finalizar' para enviar la evaluación. Si lo desea, también puede hacer clic en 'Guardar como borrador' para continuar con la evaluación más adelante.</br>"
     steptitle: "Evaluación: Paso %{step} de 3."
     topics:
       engineering: "Ingeniería"

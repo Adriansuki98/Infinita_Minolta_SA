@@ -36,6 +36,9 @@ class RsevaluationController < ApplicationController
         step3data["resources_r"] = resources_R.map{|r| r.id}
         step3data["items"] = items.map{|r| r.id}
 
+        step3data["quality_scores"] = {}
+        items.map{|i| step3data["quality_scores"][i.id.to_s] = i.reviewers_qscore_loriam.to_f}
+
         step3data["user_profile"] = {}
         step3data["user_profile"]["language"] = current_subject.language
 

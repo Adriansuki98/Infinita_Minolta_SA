@@ -77,7 +77,7 @@
   <div id="progressbar" class="progressbar"></div>
   <div class="rsdescription" style="margin-bottom: 10px;"><%=t("rsevaluation.step3.descriptiona").html_safe%></div>
   <%= render "/rsevaluation/lo" %>
-  <div class="rsdescription" style="margin-top: 10px; margin-bottom: 35px;"><%=t("rsevaluation.step3.descriptionb").html_safe%></div>
+  <div class="rsdescription" style="margin-top: 10px; margin-bottom: 35px;"><%=t("rsevaluation.step3.descriptionb", :title => @lo.title).html_safe%></div>
   <div class="rsevaluation_los">
     <% @items.each do |lo| %>
       <%= render "/rsevaluation/lo_box", :lo => lo %>
