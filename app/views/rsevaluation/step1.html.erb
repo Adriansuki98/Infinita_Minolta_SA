@@ -22,45 +22,38 @@
   .rsbutton {
     width: 100%;
   }
-  .tagsWrapper {
-    margin-top: 10px;
-    margin-bottom: 15px;
-  }
-  .tagsWrapper .tag-choice {
-    font-size: 14px;
-    border-top-right-radius: 5px;
-    border-top-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-    cursor: pointer;
-    display: inline-block;
-    margin-right: 15px;
-    position: relative;
-    background-color: #05b0ff;
-    color: #FFFFFF;
-    padding: 5px 12px 5px 12px;
-    border: 3px solid #05b0ff;
-  }
-  ul.tagsList {
-    margin-left: 0px;
-    padding-left: 0px;
-  }
-  ul.tagsList li.selected {
-    border: 3px solid black;
-  }
 </style>
 
 <div class="rsevaluation_wrapper">
   <p class="rstitle"><%=t("rsevaluation.steptitle", :step => "1").html_safe%></p>
   <div id="progressbar" class="progressbar"></div>
   <div class="rsdescription"><%=t("rsevaluation.step1.description").html_safe%></div>
+  <div class="rsdescription"><%=t("rsevaluation.step1.descriptionb").html_safe%></div>
   <br/>
-  <div class="tagsWrapper">
-    <ul class="tagsList">
-      <li class="tag-choice" value="A"><%=t("rsevaluation.topics.a").html_safe%></li>
-      <li class="tag-choice" value="B"><%=t("rsevaluation.topics.b").html_safe%></li>
-      <li class="tag-choice" value="C"><%=t("rsevaluation.topics.c").html_safe%></li>
-    </ul>
+  <div class="surveyWrapper">
+    <p><%=t("search.titles.age").capitalize%>: <input id="age" type="number" min="18" max="99" maxlength="2"/></p>
+    <p><%=t("rsevaluation.form.gender").capitalize%>: 
+      <select id="gender">
+        <option value="male"><%=t("rsevaluation.form.male")%></option>
+        <option value="female"><%=t("rsevaluation.form.female")%></option>
+      </select>
+    </p>
+    <p><%=t("rsevaluation.form.occupation").capitalize%>: 
+      <select id="occupation">
+        <option value="teacher"><%=t("rsevaluation.form.teacher")%></option>
+        <option value="student"><%=t("rsevaluation.form.student")%></option>
+        <option value="other"><%=t("rsevaluation.form.other")%></option>
+      </select>
+    </p>
+    <p><%=t("rsevaluation.form.lor_exp").capitalize%>: 
+      <select id="lor_exp">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+    </p>
   </div>
   <br/>
   <button id="step" class="btn btn-primary rsbutton"><%=t("dictionary.next")%></button>
@@ -74,22 +67,20 @@
   $("#progressbar").progressbar({
     value: 33
   });
-  $("li.tag-choice").click(function(event){
-    event.preventDefault();
-    event.stopPropagation();
-    var selected = $(this).hasClass("selected");
-    $("li.tag-choice").removeClass("selected");
-    if(selected===false){
-      $(this).addClass("selected");
-    }
-  });
   $("#step").click(function(event){
     event.preventDefault();
     event.stopPropagation();
     var data = {};
-    if ($("li.tag-choice.selected").length > 0){
-      data["topic"] = $("li.tag-choice.selected").attr("value");
+    data["age"] = $("#age").val();
+    data["gender"] = $("#gender").val();
+    data["occupation"] = $("#occupation").val();
+    data["lor_exp"] = $("#lor_exp").val();
+
+    if((data["age"].trim()==="")||(data["gender"].trim()==="")||(data["occupation"].trim()==="")||(data["lor_exp"].trim()==="")){
+      alert("<%=I18n.t("rsevaluation.messages.missing_data_in_form")%>");
+      return;
     }
+
     var form = $("#stepform");
     $(form).find("input[name='data']").attr("value",JSON.stringify(data));
     $(form).submit();

@@ -1,7 +1,7 @@
 class Rsevaluation < ActiveRecord::Base
   validates :actor_id, :presence => true, :uniqueness => true
   validates :data, :presence => true
-  validates_inclusion_of :status, :in => ["0","1","2","Finished"], :allow_nil => false
+  validates_inclusion_of :status, :in => ["0","1","2","3","Finished"], :allow_nil => false
 
   belongs_to :actor
 

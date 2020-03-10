@@ -996,9 +996,19 @@ es:
     premium_user: "Usuario Premium"
     private_student: "Estudiante Privado"
   rsevaluation:
+    form:
+      occupation: "Ocupación"
+      teacher: "Profesor"
+      student: "Estudiante"
+      other: "Otro"
+      gender: "Género"
+      male: "Hombre"
+      female: "Mujer"
+      lor_exp: "Por favor, indica tu experiencia en el uso de repositorios de recursos educativos en una escala de 1 (nada) a 5 (mucha)"
     messages:
       draft_success: "La evaluación se ha guardado como borrador. Para terminar debes pulsar sobre el botón Finalizar."
       duplicated: "La evaluación ya ha sido enviada. ¡Muchas gracias por tu colaboración!"
+      missing_data_in_form: "Debes completar todos los campos del formulario."
       missing_topic: "Debes seleccionar un tema antes de avanzar al siguiente paso."
       norelevance: "Debes indicar la relevancia para todos los objetos de aprendizaje. Hay al menos un objeto de aprendizaje sin relevancia."
       save_as_draft: "Guardar como borrador"
@@ -1007,18 +1017,21 @@ es:
       one: "No relevante para mí en absoluto"
       five: "Muy relevante para mí"
     step1:
-      description: "Paso 1 instrucciones.<br/> Selecciona un tema y pulsar en el botón 'Siguiente'."
+      description: "Bienvenido a la herramienta de evaluación. Muchas gracias por participar en este estudio de investigación. El proceso se compone de un total de 4 pasos y tiene una duración aproximada de 30 minutos. Si no pudiera completar el proceso de una sola vez, puede regresar nuevamente a esta herramienta y completar la evaluación más adelante desde el punto en que la dejó."
+      descriptionb: "En primer lugar, debe rellenar el siguiente formulario. Cuando termine, pulse en 'Siguiente' para avanzar al siguiente paso."
     step2:
-      descriptiona: "Paso 2 instrucciones. [A].<br/>"
-      descriptionb: "Paso 2 instrucciones. [B].<br/>"
+      description: "Seleccione el tema que más le interese y pulse en el botón 'Siguiente'."
     step3:
-      description: "Paso 3 instrucciones.<br/>"
+      descriptiona: "Paso 3 instrucciones. [A].<br/>"
+      descriptionb: "Paso 3 instrucciones. [B].<br/>"
+    step4:
+      description: "Paso 4 instrucciones.<br/>"
     steptitle: "Evaluación: Paso %{step} de 3."
     topics:
-      a: "Ingeniería"
-      b: "Biología"
-      c: "Historía"
-      d: "Física"
+      engineering: "Ingeniería"
+      biology: "Biología"
+      history: "Historía"
+      physics: "Física"
   save: "Salvar"
   saving: "Salvando"
   scope:
