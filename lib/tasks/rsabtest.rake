@@ -239,4 +239,111 @@ namespace :rsabtest do
     printTitle("Task finished [removeInvalidEntries]")
   end
 
+
+  #Rsevaluation
+
+  # Usage
+  # bundle exec rake rsabtest:rscore_metric[3.5,1,3.5,4]
+  task :rscore_metric, [:alpha_r, :d_r, :alpha_q, :d_q] => :environment do |t, args|
+    require "#{Rails.root}/lib/task_utils"
+    
+    printTitle("Calculating Normalized R-Score Metric for acceptance")
+    
+    usersData = []
+    metricSettings_Relevance = {:smax => 5, :alpha => 3.5, :d => 1}.recursive_merge({:alpha=>args[:alpha_r], :d=>args[:d_r]}.parse_for_vish)
+    puts "Metric settings for relevance: " + metricSettings_Relevance.to_s
+    metricSettings_Quality = {:smax => 10, :alpha => 3.5, :d => 1}.recursive_merge({:alpha=>args[:alpha_q], :d=>args[:d_q]}.parse_for_vish)
+    puts "Metric settings for quality: " + metricSettings_Quality.to_s
+
+    Rsevaluation.where(:status => "Finished").each do |e|
+      userData = {}
+      data = JSON.parse(e.data)
+
+      #relevance ratings must be provided in correct order
+      userData[:cq_relevance] = data["step3_pre"]["resources_cq"].map{|loid| data["step3"]["relevances"][loid.to_s]}
+      userData[:cq_metric_relevance] = metric_rscore(userData[:cq_relevance],metricSettings_Relevance).round(2)
+
+      userData[:c_relevance] = data["step3_pre"]["resources_c"].map{|loid| data["step3"]["relevances"][loid.to_s]}
+      userData[:c_metric_relevance] = metric_rscore(userData[:c_relevance],metricSettings_Relevance).round(2)
+
+      userData[:q_relevance] = data["step3_pre"]["resources_q"].map{|loid| data["step3"]["relevances"][loid.to_s]}
+      userData[:q_metric_relevance] = metric_rscore(userData[:q_relevance],metricSettings_Relevance).round(2)
+
+      userData[:r_relevance] = data["step3_pre"]["resources_r"].map{|loid| data["step3"]["relevances"][loid.to_s]}
+      userData[:r_metric_relevance] = metric_rscore(userData[:r_relevance],metricSettings_Relevance).round(2)
+
+      #quality scores must also be provided in correct order
+      userData[:cq_quality] = data["step3_pre"]["resources_cq"].map{|loid| data["step3_pre"]["quality_scores"][loid.to_s]}
+      userData[:cq_metric_quality] = metric_rscore(userData[:cq_quality],metricSettings_Quality).round(2)
+
+      userData[:c_quality] = data["step3_pre"]["resources_c"].map{|loid| data["step3_pre"]["quality_scores"][loid.to_s]}
+      userData[:c_metric_quality] = metric_rscore(userData[:c_quality],metricSettings_Quality).round(2)
+
+      userData[:q_quality] = data["step3_pre"]["resources_q"].map{|loid| data["step3_pre"]["quality_scores"][loid.to_s]}
+      userData[:q_metric_quality] = metric_rscore(userData[:q_quality],metricSettings_Quality).round(2)
+
+      userData[:r_quality] = data["step3_pre"]["resources_r"].map{|loid| data["step3_pre"]["quality_scores"][loid.to_s]}
+      userData[:r_metric_quality] = metric_rscore(userData[:r_quality],metricSettings_Quality).round(2)
+
+      usersData << userData
+    end
+
+    puts usersData
+
+    # Generate excel file with results
+    filePath = "reports/rscore.xlsx"
+    Axlsx::Package.new do |p|
+      p.workbook.add_worksheet(:name => "Recommender System RScore") do |sheet|
+        rows = []
+        rows << ["Recommender System RScore"]
+        rows << ["Relevance"]
+        rowIndex = rows.length
+
+        rows += Array.new(2 + usersData[0][:cq_relevance].length).map{|e| []}
+
+        usersData.each_with_index do |userData,i|
+          rows[rowIndex] += [("User " + (i+1).to_s)]
+          rows[rowIndex+1] += ["CQ","C","Q","R","CQ (R-Score)","C (R-Score)","Q (R-Score)","R (R-Score)"]
+          userData[:cq_relevance].length.times do |j|
+            rows[rowIndex+2+j] += [userData[:cq_relevance][j],userData[:c_relevance][j],userData[:q_relevance][j],userData[:r_relevance][j]]
+            rows[rowIndex+2+j] += Array.new(4) unless j==0
+          end
+          rows[rowIndex+2] += [userData[:cq_metric_relevance],userData[:c_metric_relevance],userData[:q_metric_relevance],userData[:r_metric_relevance]]
+        end
+
+        rowIndex = rows.length
+        rows += Array.new(9).map{|e| []}
+        rows[rowIndex+1] += (["Relevance"] + Array.new(3))
+        rows[rowIndex+2] += ["C R-Score",nil,"CQ R-Score",nil,"Q R-Score",nil,"R R-Score",nil]
+        rows[rowIndex+3] += ["M","SD","M","SD","M","SD","M","SD"]
+        rows[rowIndex+4] += [DescriptiveStatistics.mean(usersData.map{|userData| userData[:cq_metric_relevance]}).round(2),DescriptiveStatistics.standard_deviation(usersData.map{|userData| userData[:cq_metric_relevance]}).round(3)]
+        rows[rowIndex+6] += ["R-Score parameters"]
+        rows[rowIndex+7] += ["d","Alpha"]
+        rows[rowIndex+8] += [metricSettings_Relevance[:d],metricSettings_Relevance[:alpha]]
+
+        rows.each do |row|
+          sheet.add_row row
+        end
+      end
+      prepareFile(filePath)
+      p.serialize(filePath)
+    end
+
+    puts("Task Finished. Results generated at " + filePath)
+  end
+
+  def metric_rscore(scores,options)
+    score = 0
+    max_score = 0
+    smax = options[:smax] || 5 #Maximum rating that a user can give to an item
+    alpha = options[:alpha] || 1.5 #Half-life parameter which controls exponential decline of the value of positions.
+    d = options[:d] || 1 #Breeze's don't care threshold.
+    scores.each_with_index do |s,j|
+      score += ([s-d,0].max)/(2 ** ((j-1)/(alpha-1)))
+      max_score += ([smax-d,0].max)/(2 ** ((j-1)/(alpha-1)))
+    end
+    #Normalization
+    score/max_score.to_f
+  end
+
 end
