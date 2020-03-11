@@ -259,6 +259,21 @@ namespace :rsabtest do
       userData = {}
       data = JSON.parse(e.data)
 
+      #User info
+      userData[:id] = e.actor.slug
+      userData[:date] = e.updated_at.strftime("%d/%m/%Y")
+      userData[:language] = data["step3_pre"]["user_profile"]["language"]
+      
+      #Form data
+      userData[:age] = data["step1"]["age"]
+      userData[:gender] = data["step1"]["gender"]
+      userData[:occupation] = data["step1"]["occupation"]
+      userData[:lor_exp] = data["step1"]["lor_exp"]
+
+      #Context
+      userData[:topic] = data["step2"]["topic"]
+      userData[:lo] = data["step3_pre"]["lo_id"]
+
       #relevance ratings must be provided in correct order
       userData[:cq_relevance] = data["step3_pre"]["resources_cq"].map{|loid| data["step3"]["relevances"][loid.to_s]}
       userData[:cq_metric_relevance] = metric_rscore(userData[:cq_relevance],metricSettings_Relevance).round(2)
@@ -296,30 +311,21 @@ namespace :rsabtest do
       p.workbook.add_worksheet(:name => "Recommender System RScore") do |sheet|
         rows = []
         rows << ["Recommender System RScore"]
-        rows << ["Relevance"]
-        rowIndex = rows.length
-
-        rows += Array.new(2 + usersData[0][:cq_relevance].length).map{|e| []}
+        rows << []
+        rows << (["UserId","Date","Language"] + ["Age","Gender","Occupation","Experience with LORs"] + ["Topic","LoId"] + ["Relevance CQ","Relevance C","Relevance Q","Relevance R"] + ["Quality CQ","Quality C","Quality Q","Quality R"] + ["R-Score Relevance (CQ)","R-Score Relevance (C)","R-Score Relevance (Q)","R-Score Relevance (R)"] + ["R-Score Quality (CQ)","R-Score Quality (C)","R-Score Quality (Q)","R-Score Quality (R)"])
 
         usersData.each_with_index do |userData,i|
-          rows[rowIndex] += [("User " + (i+1).to_s)]
-          rows[rowIndex+1] += ["CQ","C","Q","R","CQ (R-Score)","C (R-Score)","Q (R-Score)","R (R-Score)"]
-          userData[:cq_relevance].length.times do |j|
-            rows[rowIndex+2+j] += [userData[:cq_relevance][j],userData[:c_relevance][j],userData[:q_relevance][j],userData[:r_relevance][j]]
-            rows[rowIndex+2+j] += Array.new(4) unless j==0
+          rows << [userData[:id],userData[:date],userData[:language],userData[:age],userData[:gender],userData[:occupation],userData[:lor_exp],userData[:topic],userData[:lo],userData[:cq_relevance][0],userData[:c_relevance][0],userData[:q_relevance][0],userData[:r_relevance][0],userData[:cq_quality][0],userData[:c_quality][0],userData[:q_quality][0],userData[:r_quality][0],userData[:cq_metric_relevance],userData[:c_metric_relevance],userData[:q_metric_relevance],userData[:r_metric_relevance],userData[:cq_metric_quality],userData[:c_metric_quality],userData[:q_metric_quality],userData[:r_metric_quality]]
+          4.times do |i|
+            rows << Array.new(9) + [userData[:cq_relevance][i+1],userData[:c_relevance][i+1],userData[:q_relevance][i+1],userData[:r_relevance][i+1],userData[:cq_quality][i+1],userData[:c_quality][i+1],userData[:q_quality][i+1],userData[:r_quality][i+1]]
           end
-          rows[rowIndex+2] += [userData[:cq_metric_relevance],userData[:c_metric_relevance],userData[:q_metric_relevance],userData[:r_metric_relevance]]
         end
 
-        rowIndex = rows.length
-        rows += Array.new(9).map{|e| []}
-        rows[rowIndex+1] += (["Relevance"] + Array.new(3))
-        rows[rowIndex+2] += ["C R-Score",nil,"CQ R-Score",nil,"Q R-Score",nil,"R R-Score",nil]
-        rows[rowIndex+3] += ["M","SD","M","SD","M","SD","M","SD"]
-        rows[rowIndex+4] += [DescriptiveStatistics.mean(usersData.map{|userData| userData[:cq_metric_relevance]}).round(2),DescriptiveStatistics.standard_deviation(usersData.map{|userData| userData[:cq_metric_relevance]}).round(3)]
-        rows[rowIndex+6] += ["R-Score parameters"]
-        rows[rowIndex+7] += ["d","Alpha"]
-        rows[rowIndex+8] += [metricSettings_Relevance[:d],metricSettings_Relevance[:alpha]]
+        rows << []
+        rows << ["","CQ",nil,"C",nil,"Q",nil,"R",nil,"Parameters"]
+        rows << ["","M","SD","M","SD","M","SD","M","SD","d","alpha"]
+        rows << ["R-Score Relevance"] + [DescriptiveStatistics.mean(usersData.map{|userData| userData[:cq_metric_relevance]}).round(2),DescriptiveStatistics.standard_deviation(usersData.map{|userData| userData[:cq_metric_relevance]}).round(3)] + [DescriptiveStatistics.mean(usersData.map{|userData| userData[:c_metric_relevance]}).round(2),DescriptiveStatistics.standard_deviation(usersData.map{|userData| userData[:c_metric_relevance]}).round(3)] + [DescriptiveStatistics.mean(usersData.map{|userData| userData[:q_metric_relevance]}).round(2),DescriptiveStatistics.standard_deviation(usersData.map{|userData| userData[:q_metric_relevance]}).round(3)] + [DescriptiveStatistics.mean(usersData.map{|userData| userData[:r_metric_relevance]}).round(2),DescriptiveStatistics.standard_deviation(usersData.map{|userData| userData[:r_metric_relevance]}).round(3)] + [metricSettings_Relevance[:d],metricSettings_Relevance[:alpha]]
+        rows << ["R-Score Quality"] + [DescriptiveStatistics.mean(usersData.map{|userData| userData[:cq_metric_quality]}).round(2),DescriptiveStatistics.standard_deviation(usersData.map{|userData| userData[:cq_metric_quality]}).round(3)] + [DescriptiveStatistics.mean(usersData.map{|userData| userData[:c_metric_quality]}).round(2),DescriptiveStatistics.standard_deviation(usersData.map{|userData| userData[:c_metric_quality]}).round(3)] + [DescriptiveStatistics.mean(usersData.map{|userData| userData[:q_metric_quality]}).round(2),DescriptiveStatistics.standard_deviation(usersData.map{|userData| userData[:q_metric_quality]}).round(3)] + [DescriptiveStatistics.mean(usersData.map{|userData| userData[:r_metric_quality]}).round(2),DescriptiveStatistics.standard_deviation(usersData.map{|userData| userData[:r_metric_quality]}).round(3)] + [metricSettings_Quality[:d],metricSettings_Quality[:alpha]]
 
         rows.each do |row|
           sheet.add_row row

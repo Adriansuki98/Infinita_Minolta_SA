@@ -103,6 +103,8 @@ class RsevaluationController < ApplicationController
     data["step1"] = {};
     data["step1"]["age"] = userData["age"]
     data["step1"]["gender"] = userData["gender"]
+    data["step1"]["occupation"] = userData["occupation"]
+    data["step1"]["lor_exp"] = userData["lor_exp"]
     e.data = data.to_json
     e.save!
     redirect_to "/rsevaluation"
@@ -117,7 +119,7 @@ class RsevaluationController < ApplicationController
 
     e = current_subject.rsevaluation
     e.status = "2"
-    data = {}
+    data = JSON.parse(e.data)
     data["step2"] = {};
     data["step2"]["topic"] = userData["topic"]
     e.data = data.to_json
