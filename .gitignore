@@ -103,3 +103,5 @@ chromedriver.log
 lib/plugins/ediphy/vendor/private/*
 
 unicorn.conf
+
+vendor/bundle/

@@ -93,7 +93,7 @@ class RsevaluationController < ApplicationController
     userData = JSON.parse(params["data"]) rescue {}
     #Data validation.
     errors = []
-    errors << I18n.t("rsevaluation.messages.missing_data_in_form") if (userData["age"].blank? or userData["gender"].blank? or userData["occupation"].blank? or userData["lor_exp"].blank?)
+    errors << I18n.t("rsevaluation.messages.missing_data_in_form") if (userData["age"].blank? or userData["gender"].blank? or userData["occupation"].blank? or userData["educational_level"].blank? or userData["educational_field"].blank? or userData["lor_exp"].blank?)
     return redirect_to("/rsevaluation", :alert => errors.first) unless errors.blank?
 
     e = Rsevaluation.new
@@ -104,6 +104,8 @@ class RsevaluationController < ApplicationController
     data["step1"]["age"] = userData["age"]
     data["step1"]["gender"] = userData["gender"]
     data["step1"]["occupation"] = userData["occupation"]
+    data["step1"]["educational_level"] = userData["educational_level"]
+    data["step1"]["educational_field"] = userData["educational_field"]
     data["step1"]["lor_exp"] = userData["lor_exp"]
     e.data = data.to_json
     e.save!

@@ -1025,6 +1025,14 @@ en:
       gender: "Gender"
       male: "Male"
       female: "Female"
+      educational_level: "Educational level"
+      el_preschool: "Preschool education"
+      el_primary: "Primary education"
+      el_secondary: "Secondary education"
+      el_higher: "Higher education"
+      el_pt: "Professional training"
+      el_other: "Other"
+      educational_field: "Field or Degree (e.g. Computer Science, Biology, History)"
       lor_exp: "Please, indicate your experience using repositories of educational resources on a scale from 1 (nothing) to 5 (a lot)"
     messages:
       draft_success: "The evaluation has been saved as draft. In order to finish you have to press on the 'Finish' button."
@@ -1043,7 +1051,7 @@ en:
     step2:
       description: "Choose the topic that interests you most and click on the 'Next' button."
     step3:
-      descriptiona: "Put yourself in the situation that you are browsing a repository of learning objects (e.g. the ViSH platform ) looking for educational resources and that, finally, you find an educational resource in which you are interested. After clicking on a link you navigate to a new page where you can see the details of this educational resource.</br>Specifically, <b>the educational resource whose details you are seeing is the one shown below.</b>:</br>"
+      descriptiona: "Put yourself in the situation that you are browsing a repository of learning objects (e.g. the ViSH platform ) looking for educational resources and that, finally, you find an educational resource in which you are interested. After clicking on a link you navigate to a new page where you can see the details of this educational resource.</br>Specifically, <b>the educational resource whose details you are seeing is the one shown below</b>:</br>"
       descriptionb: "Next, a <b>list of educational resources</b> is going to be shown to you. <br/>Given the situation described above, suppose that this list has been recommended for you <b>on the same page where you are viewing the details of the selected educational resource (i.e. of the educational resource entitled '%{title}')</b>.</br>Please, rate, for each of the educational resources on the list, the <b>relevance or interest that this recommendation has for you</b> in the described situation using a 5-point scale, being 1 \'Not at all relevant to me\' and 5 \'Very relevant to me\'.<br/>Once you have rated the relevance for each educational resource, press on 'Finish' to send the evaluation. If you want, you can press on 'Save as draft' to continue later with the evaluation.</br>"
     steptitle: "Evaluation: Step %{step} of 3."
     topics:

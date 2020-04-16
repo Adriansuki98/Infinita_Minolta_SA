@@ -45,11 +45,22 @@
         <option value="other"><%=t("rsevaluation.form.other")%></option>
       </select>
     </p>
+    <p><%=t("rsevaluation.form.educational_level").capitalize%>: 
+      <select id="educational_level">
+        <option value="<%=t("rsevaluation.form.el_preschool", :locale => "en")%>"><%=t("rsevaluation.form.el_preschool")%></option>
+        <option value="<%=t("rsevaluation.form.el_primary", :locale => "en")%>"><%=t("rsevaluation.form.el_primary")%></option>
+        <option value="<%=t("rsevaluation.form.el_secondary", :locale => "en")%>"><%=t("rsevaluation.form.el_secondary")%></option>
+        <option selected="selected" value="<%=t("rsevaluation.form.el_higher", :locale => "en")%>"><%=t("rsevaluation.form.el_higher")%></option>
+        <option value="<%=t("rsevaluation.form.el_pt", :locale => "en")%>"><%=t("rsevaluation.form.el_pt")%></option>
+        <option value="<%=t("rsevaluation.form.el_other", :locale => "en")%>"><%=t("rsevaluation.form.el_other")%></option>
+      </select>
+    </p>
+    <p><%=t("rsevaluation.form.educational_field")%>: <input id="educational_field" type="text" size="67" maxlength="60" style="padding:4px"/></p>
     <p><%=t("rsevaluation.form.lor_exp").capitalize%>: 
       <select id="lor_exp">
         <option value="1">1</option>
         <option value="2">2</option>
-        <option value="3">3</option>
+        <option selected="selected" value="3">3</option>
         <option value="4">4</option>
         <option value="5">5</option>
       </select>
@@ -74,9 +85,11 @@
     data["age"] = $("#age").val();
     data["gender"] = $("#gender").val();
     data["occupation"] = $("#occupation").val();
+    data["educational_level"] = $("#educational_level").val();
+    data["educational_field"] = $("#educational_field").val();
     data["lor_exp"] = $("#lor_exp").val();
 
-    if((data["age"].trim()==="")||(data["gender"].trim()==="")||(data["occupation"].trim()==="")||(data["lor_exp"].trim()==="")){
+    if((data["age"].trim()==="")||(data["gender"].trim()==="")||(data["occupation"].trim()==="")||(data["educational_level"].trim()==="")||(data["educational_field"].trim()==="")||(data["lor_exp"].trim()==="")){
       alert("<%=I18n.t("rsevaluation.messages.missing_data_in_form")%>");
       return;
     }
