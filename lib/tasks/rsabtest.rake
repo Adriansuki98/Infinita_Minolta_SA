@@ -278,15 +278,19 @@ namespace :rsabtest do
 
       #relevance ratings must be provided in correct order
       userData[:cq_relevance] = data["step3_pre"]["resources_cq"].map{|loid| data["step3"]["relevances"][loid.to_s]}
+      next if userData[:cq_relevance].include?(nil)
       userData[:cq_metric_relevance] = metric_rscore(userData[:cq_relevance],metricSettings_Relevance).round(2)
 
       userData[:c_relevance] = data["step3_pre"]["resources_c"].map{|loid| data["step3"]["relevances"][loid.to_s]}
+      next if userData[:c_relevance].include?(nil)
       userData[:c_metric_relevance] = metric_rscore(userData[:c_relevance],metricSettings_Relevance).round(2)
 
       userData[:q_relevance] = data["step3_pre"]["resources_q"].map{|loid| data["step3"]["relevances"][loid.to_s]}
+      next if userData[:q_relevance].include?(nil)
       userData[:q_metric_relevance] = metric_rscore(userData[:q_relevance],metricSettings_Relevance).round(2)
 
       userData[:r_relevance] = data["step3_pre"]["resources_r"].map{|loid| data["step3"]["relevances"][loid.to_s]}
+      next if userData[:r_relevance].include?(nil)
       userData[:r_metric_relevance] = metric_rscore(userData[:r_relevance],metricSettings_Relevance).round(2)
 
       #quality scores must also be provided in correct order
@@ -308,18 +312,18 @@ namespace :rsabtest do
     puts usersData
 
     # Generate excel file with results
-    filePath = "reports/rscore.xlsx"
+    filePath = "reports/RScore_" + Time.now().strftime("%d-%m-%Y") + "_R-alpha-" + metricSettings_Relevance[:alpha].to_s + "-d-" + metricSettings_Relevance[:d].to_s + "_Q-alpha-" + metricSettings_Quality[:alpha].to_s + "-d-" + metricSettings_Quality[:d].to_s + ".xlsx"
     Axlsx::Package.new do |p|
       p.workbook.add_worksheet(:name => "Recommender System RScore") do |sheet|
         rows = []
         rows << ["Recommender System RScore"]
         rows << []
-        rows << (["UserId","Date","Language"] + ["Age","Gender","Occupation","Educational Level","Educational Field","Experience with LORs"] + ["Topic","LoId"] + ["Relevance CQ","Relevance C","Relevance Q","Relevance R"] + ["Quality CQ","Quality C","Quality Q","Quality R"] + ["R-Score Relevance (CQ)","R-Score Relevance (C)","R-Score Relevance (Q)","R-Score Relevance (R)"] + ["R-Score Quality (CQ)","R-Score Quality (C)","R-Score Quality (Q)","R-Score Quality (R)"])
+        rows << (["UserN","UserId","Date","Language"] + ["Age","Gender","Occupation","Educational Level","Educational Field","Experience with LORs"] + ["Topic","LoId"] + ["Relevance CQ","Relevance C","Relevance Q","Relevance R"] + ["Quality CQ","Quality C","Quality Q","Quality R"] + ["R-Score Relevance (CQ)","R-Score Relevance (C)","R-Score Relevance (Q)","R-Score Relevance (R)"] + ["R-Score Quality (CQ)","R-Score Quality (C)","R-Score Quality (Q)","R-Score Quality (R)"])
 
         usersData.each_with_index do |userData,i|
-          rows << [userData[:id],userData[:date],userData[:language],userData[:age],userData[:gender],userData[:occupation],userData[:educational_level],userData[:educational_field],userData[:lor_exp],userData[:topic],userData[:lo],userData[:cq_relevance][0],userData[:c_relevance][0],userData[:q_relevance][0],userData[:r_relevance][0],userData[:cq_quality][0],userData[:c_quality][0],userData[:q_quality][0],userData[:r_quality][0],userData[:cq_metric_relevance],userData[:c_metric_relevance],userData[:q_metric_relevance],userData[:r_metric_relevance],userData[:cq_metric_quality],userData[:c_metric_quality],userData[:q_metric_quality],userData[:r_metric_quality]]
+          rows << [(i+1).to_s,userData[:id],userData[:date],userData[:language],userData[:age],userData[:gender],userData[:occupation],userData[:educational_level],userData[:educational_field],userData[:lor_exp],userData[:topic],userData[:lo],userData[:cq_relevance][0],userData[:c_relevance][0],userData[:q_relevance][0],userData[:r_relevance][0],userData[:cq_quality][0],userData[:c_quality][0],userData[:q_quality][0],userData[:r_quality][0],userData[:cq_metric_relevance],userData[:c_metric_relevance],userData[:q_metric_relevance],userData[:r_metric_relevance],userData[:cq_metric_quality],userData[:c_metric_quality],userData[:q_metric_quality],userData[:r_metric_quality]]
           4.times do |i|
-            rows << Array.new(11) + [userData[:cq_relevance][i+1],userData[:c_relevance][i+1],userData[:q_relevance][i+1],userData[:r_relevance][i+1],userData[:cq_quality][i+1],userData[:c_quality][i+1],userData[:q_quality][i+1],userData[:r_quality][i+1]]
+            rows << Array.new(12) + [userData[:cq_relevance][i+1],userData[:c_relevance][i+1],userData[:q_relevance][i+1],userData[:r_relevance][i+1],userData[:cq_quality][i+1],userData[:c_quality][i+1],userData[:q_quality][i+1],userData[:r_quality][i+1]]
           end
         end
 
