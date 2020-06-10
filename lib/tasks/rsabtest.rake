@@ -318,13 +318,31 @@ namespace :rsabtest do
         rows = []
         rows << ["Recommender System RScore"]
         rows << []
-        rows << (["UserN","UserId","Date","Language"] + ["Age","Gender","Occupation","Educational Level","Educational Field","Experience with LORs"] + ["Topic","LoId"] + ["Relevance CQ","Relevance C","Relevance Q","Relevance R"] + ["Quality CQ","Quality C","Quality Q","Quality R"] + ["R-Score Relevance (CQ)","R-Score Relevance (C)","R-Score Relevance (Q)","R-Score Relevance (R)"] + ["R-Score Quality (CQ)","R-Score Quality (C)","R-Score Quality (Q)","R-Score Quality (R)"])
+        rows << (["UserN","UserId","Date","Language"] + 
+          ["Age","Gender","Occupation","Educational Level","Educational Field","Experience with LORs"] + 
+          ["Topic","LoId"] + 
+          ["Relevance CQ"] + Array.new(4) +
+          ["Relevance C"] + Array.new(4) +
+          ["Relevance Q"] + Array.new(4) +
+          ["Relevance R"] + Array.new(4) +
+          ["Quality CQ"] + Array.new(4) +
+          ["Quality C"] + Array.new(4) +
+          ["Quality Q"] + Array.new(4) +
+          ["Quality R"] + Array.new(4) + 
+          ["R-Score Relevance (CQ)","R-Score Relevance (C)","R-Score Relevance (Q)","R-Score Relevance (R)"] + 
+          ["R-Score Quality (CQ)","R-Score Quality (C)","R-Score Quality (Q)","R-Score Quality (R)"])
 
         usersData.each_with_index do |userData,i|
-          rows << [(i+1).to_s,userData[:id],userData[:date],userData[:language],userData[:age],userData[:gender],userData[:occupation],userData[:educational_level],userData[:educational_field],userData[:lor_exp],userData[:topic],userData[:lo],userData[:cq_relevance][0],userData[:c_relevance][0],userData[:q_relevance][0],userData[:r_relevance][0],userData[:cq_quality][0],userData[:c_quality][0],userData[:q_quality][0],userData[:r_quality][0],userData[:cq_metric_relevance],userData[:c_metric_relevance],userData[:q_metric_relevance],userData[:r_metric_relevance],userData[:cq_metric_quality],userData[:c_metric_quality],userData[:q_metric_quality],userData[:r_metric_quality]]
-          4.times do |i|
-            rows << Array.new(12) + [userData[:cq_relevance][i+1],userData[:c_relevance][i+1],userData[:q_relevance][i+1],userData[:r_relevance][i+1],userData[:cq_quality][i+1],userData[:c_quality][i+1],userData[:q_quality][i+1],userData[:r_quality][i+1]]
-          end
+          rows << [(i+1).to_s,userData[:id],userData[:date],userData[:language],userData[:age],userData[:gender],userData[:occupation],userData[:educational_level],userData[:educational_field],userData[:lor_exp],userData[:topic],userData[:lo]] +
+          userData[:cq_relevance] +
+          userData[:c_relevance] +
+          userData[:q_relevance] +
+          userData[:r_relevance] +
+          userData[:cq_quality] +
+          userData[:c_quality] +
+          userData[:q_quality] +
+          userData[:r_quality] +
+          [userData[:cq_metric_relevance],userData[:c_metric_relevance],userData[:q_metric_relevance],userData[:r_metric_relevance],userData[:cq_metric_quality],userData[:c_metric_quality],userData[:q_metric_quality],userData[:r_metric_quality]]
         end
 
         rows << []
